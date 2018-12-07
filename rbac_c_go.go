@@ -3,6 +3,7 @@ package main
 import (
 	"C"
 	"fmt"
+	"sort"
 )
 
 var userMap map[string]string
@@ -23,9 +24,33 @@ func rbac_init() int32 {
 	roleMap["roleView"] = "role for viewer"
 
 	permMap["permChange"] = "permission for changing something"
-	permMap["permCheck"] = "permission for viewing something"
+	permMap["permView"] = "permission for viewing something"
 
 	//sort.Strings(nameList)
+	return 0
+}
+
+//export rbac_create_permission
+func rbac_create_permission(name, desc string) int32 {
+
+	permMap[name] = desc
+
+	return 0
+}
+
+//export rbac_create_role
+func rbac_create_role(name, desc string) int32 {
+
+	roleMap[name] = desc
+
+	return 0
+}
+
+//export rbac_create_user
+func rbac_create_user(name, desc string) int32 {
+
+	userMap[name] = desc
+
 	return 0
 }
 
@@ -38,9 +63,8 @@ func rbac_list_users() int32 {
 		result = append(result, str)
 	}
 
-	for _, value := range result {
-		fmt.Printf("%s. \n", value)
-	}
+	print_str_array(result)
+
 	return 0
 }
 
@@ -53,9 +77,7 @@ func rbac_list_roles() int32 {
 		result = append(result, str)
 	}
 
-	for _, value := range result {
-		fmt.Printf("%s. \n", value)
-	}
+	print_str_array(result)
 
 	return 0
 }
@@ -69,10 +91,16 @@ func rbac_list_permissions() int32 {
 		result = append(result, str)
 	}
 
-	for _, value := range result {
+	print_str_array(result)
+
+	return 0
+}
+
+func print_str_array(array []string) {
+	sort.Strings(array)
+	for _, value := range array {
 		fmt.Printf("%s. \n", value)
 	}
-	return 0
 }
 
 func main() {
