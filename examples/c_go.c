@@ -7,9 +7,6 @@ int main() {
     rVal = rbac_init();
     printf("The return value of rbac_init is %d. \n", rVal);
 
-    rbac_list_users();
-    rbac_list_roles();
-    rbac_list_permissions();
     
     {
         char name[] = "permGetLog";
@@ -48,7 +45,7 @@ int main() {
     }    
 
     printf("\n");
-    
+
     rbac_list_users();
     rbac_list_roles();
     rbac_list_permissions();
@@ -57,6 +54,8 @@ int main() {
     rabc_assign_role_to_user();
 
     rbac_user_has_permission();*/
+
+    rbac_uninit();
 
     return 0;
 }
