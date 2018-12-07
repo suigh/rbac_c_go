@@ -1,4 +1,4 @@
-#include "rbac_c_go.h"
+#include "../rbac_c_go.h"
 #include <stdio.h>
 #include <string.h>
 

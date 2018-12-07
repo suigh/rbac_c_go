@@ -1,6 +1,5 @@
 default: 
-	go build -buildmode=c-archive -o ./rbac_c_go.a rbac_c_go.go
-	gcc -o a c_go.c rbac_c_go.a -lpthread
+	gcc -o a c_go.c ../rbac_c_go.a -lpthread
 
 clean: 
 	rm -f a
