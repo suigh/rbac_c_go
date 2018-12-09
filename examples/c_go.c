@@ -169,9 +169,22 @@ int main() {
 
         p = rbac_user_has_permission(goUser, goPerm);  
         printf("Result is %s. \n", p);
+    } 
+
+    {
+        char role[] = "roleAdmin";
+        int lenRole = strlen(role);
+        GoString goRole = {role, lenRole};  
+
+        char permission[] = "permAdmin";
+        int lenPerm = strlen(permission);
+        GoString goPerm = {permission, lenPerm};   
+
+        p = rbac_unbind_role_permission(goRole, goPerm);  
+        printf("Result is %s. \n", p);
     }
 
-    /*rbac_unbind_role_permission();
+    /*();
     rbac_unbind_user_role();
 
     rbac_delete_permission
