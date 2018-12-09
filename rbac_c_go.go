@@ -7,10 +7,12 @@ import (
 	"sync"
 )
 
+//used to store users, roles, and permissions.
 var userMap map[string]string
 var roleMap map[string]string
 var permMap map[string]string
 
+//used to store the relationshiops for user->role and role->permission
 var userRoleMap map[string]map[string]string
 var rolePermMap map[string]map[string]string
 
@@ -149,6 +151,71 @@ func rbac_list_permissions() *C.char {
 
 	//print_str_array(resultArray)
 	//fmt.Printf("%s. \n", resultStr)
+	return C.CString(resultStr)
+}
+
+//export rabc_list_roles_by_user
+func rabc_list_roles_by_user(user string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = ""
+
+	for keyL1, valL1 := range userRoleMap {
+		for keyL2, _ := range valL1 {
+			if user == keyL1 {
+				resultStr = resultStr + "," + keyL2
+			}
+		}
+	}
+
+	return C.CString(resultStr)
+}
+
+//export rabc_list_permissions_by_role
+func rabc_list_permissions_by_role(role string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = ""
+
+	for keyL1, valL1 := range rolePermMap {
+		for keyL2, _ := range valL1 {
+			if role == keyL1 {
+				resultStr = resultStr + "," + keyL2
+			}
+		}
+	}
+
+	return C.CString(resultStr)
+}
+
+//export rbac_user_has_permission
+func rbac_user_has_permission(user, perm string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "NOK"
+
+	for keyURL1, valURL1 := range userRoleMap {
+		if user == keyURL1 {
+			for keyURL2, _ := range valURL1 {
+				for keyRPL1, valRPL1 := range rolePermMap {
+					for keyRPL2, _ := range valRPL1 {
+						if keyURL2 == keyRPL1 && keyRPL2 == perm {
+							resultStr = "OK"
+							return C.CString(resultStr)
+						}
+					}
+				}
+			}
+
+		}
+	}
+
 	return C.CString(resultStr)
 }
 
