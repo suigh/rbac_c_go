@@ -39,24 +39,6 @@ func rbac_init() int32 {
 	rolePermMap = make(map[string]map[string]string)
 
 	/*do something to load the change*/
-	userMap["userAdmin"] = "user for administrator"
-	userMap["userView"] = "user for viewer"
-
-	roleMap["roleAdmin"] = "role for administrator"
-	roleMap["roleView"] = "role for viewer"
-
-	permMap["permChange"] = "permission for changing something"
-	permMap["permView"] = "permission for viewing something"
-
-	re := add_kv_to_2D_map(userRoleMap, "userAdmin", "roleAdmin", "")
-	re = add_kv_to_2D_map(userRoleMap, "userAdmin", "roleView", "")
-	fmt.Printf("return value is %d. \n", re)
-
-	re = add_kv_to_2D_map(userRoleMap, "userAdmin", "roleView", "")
-	fmt.Printf("return value is %d.\n", re)
-
-	print_2D_map(userRoleMap)
-
 	return 0
 }
 
@@ -167,6 +149,62 @@ func rbac_list_permissions() *C.char {
 
 	//print_str_array(resultArray)
 	//fmt.Printf("%s. \n", resultStr)
+	return C.CString(resultStr)
+}
+
+//export rbac_bind_role_permission
+func rbac_bind_role_permission(role, perm string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := roleMap[role]; !exist {
+		resultStr = "Role doesn't exist"
+		C.CString(resultStr)
+	}
+
+	if _, exist := permMap[perm]; !exist {
+		resultStr = "permission doesn't exist"
+		C.CString(resultStr)
+	}
+
+	if _, exist := rolePermMap[role][perm]; exist {
+		resultStr = "The relationship already exist"
+		C.CString(resultStr)
+	}
+
+	add_kv_to_2D_map(rolePermMap, role, perm, "")
+
+	return C.CString(resultStr)
+}
+
+//export rbac_bind_user_role
+func rbac_bind_user_role(user, role string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := userMap[user]; !exist {
+		resultStr = "User doesn't exist"
+		C.CString(resultStr)
+	}
+
+	if _, exist := roleMap[role]; !exist {
+		resultStr = "Role doesn't exist"
+		C.CString(resultStr)
+	}
+
+	if _, exist := userRoleMap[user][role]; exist {
+		resultStr = "The relationship already exist"
+		C.CString(resultStr)
+	}
+
+	add_kv_to_2D_map(userRoleMap, user, role, "")
+
 	return C.CString(resultStr)
 }
 

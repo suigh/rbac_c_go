@@ -10,11 +10,11 @@ int main() {
 
     
     {
-        char name[] = "permGetLog";
+        char name[] = "permAdmin";
         int lenName = strlen(name);
         GoString goName = {name, lenName};    
 
-        char desc[] = "permpermission for getting logs";
+        char desc[] = "permpermission for admin";
         int lenDesc = strlen(desc);
         GoString goDesc = {desc, lenDesc};  
 
@@ -22,11 +22,11 @@ int main() {
     }
 
     {
-        char name[] = "roleLog";
+        char name[] = "roleAdmin";
         int lenName = strlen(name);
         GoString goName = {name, lenName};
 
-        char desc[] = "role for logs";
+        char desc[] = "role for administrato";
         int lenDesc = strlen(desc);
         GoString goDesc = {desc, lenDesc}; 
 
@@ -34,11 +34,11 @@ int main() {
     }
 
     {
-        char name[] = "userLog";
+        char name[] = "userAdmin";
         int lenName = strlen(name);
         GoString goName = {name, lenName};   
 
-        char desc[] = "user for logs";
+        char desc[] = "user for administrato";
         int lenDesc = strlen(desc);
         GoString goDesc = {desc, lenDesc};  
 
@@ -54,10 +54,43 @@ int main() {
     p = rbac_list_permissions();
     printf("Result is %s. \n", p);    
 
-    /*rbac_assign_permission_to_role();
-    rabc_assign_role_to_user();
+    {
+        char role[] = "roleAdmin";
+        int lenRole = strlen(role);
+        GoString goRole = {role, lenRole};  
 
-    rbac_user_has_permission();*/
+        char permission[] = "permAdmin";
+        int lenPerm = strlen(permission);
+        GoString goPerm = {permission, lenPerm};   
+
+        p = rbac_bind_role_permission(goRole, goPerm);  
+        printf("Result is %s. \n", p);
+    } 
+
+    {
+        char user[] = "userAdmin";
+        int lenUser = strlen(user);
+        GoString goUser = {user, lenUser};   
+
+        char role[] = "roleAdmin";
+        int lenRole = strlen(role);
+        GoString goRole = {role, lenRole};         
+
+        p = rbac_bind_user_role(goUser, goRole);  
+        printf("Result is %s. \n", p);
+    } 
+
+    /*rbac_bind_role_permission();
+    rbac_bind_user_role();
+
+    /*rbac_user_has_permission();
+    
+    rabc_list_roles_by_user();
+    rabc_list_permissions_by_role();
+
+    persist and load in Jason in GO.
+    */
+
 
     rbac_uninit();
 
