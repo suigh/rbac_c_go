@@ -3,6 +3,7 @@
 #include <string.h>
 
 int main() {
+    char * p;
     int rVal = 0;
     rVal = rbac_init();
     printf("The return value of rbac_init is %d. \n", rVal);
@@ -44,11 +45,14 @@ int main() {
         rbac_create_user(goName, goDesc);  
     }    
 
-    printf("\n");
+    p = rbac_list_users();
+    printf("Result is %s. \n", p);
 
-    rbac_list_users();
-    rbac_list_roles();
-    rbac_list_permissions();
+    p = rbac_list_roles();
+    printf("Result is %s. \n", p);
+
+    p = rbac_list_permissions();
+    printf("Result is %s. \n", p);    
 
     /*rbac_assign_permission_to_role();
     rabc_assign_role_to_user();

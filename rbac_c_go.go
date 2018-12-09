@@ -17,6 +17,8 @@ var rolePermMap map[string]map[string]string
 var initialized = 0 /*0 not inited, 1 inited, 2 uninited*/
 var mutex sync.RWMutex
 
+var resultStr string
+
 /*used for initialization, must be called once and only once*/
 //export rbac_init
 func rbac_init() int32 {
@@ -109,54 +111,63 @@ func rbac_create_user(name, desc string) int32 {
 }
 
 //export rbac_list_users
-func rbac_list_users() int32 {
+func rbac_list_users() *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	var result []string
+	resultStr = ""
+	var resultArray []string
 	for key, value := range userMap {
 		str := key + ": " + value
-		result = append(result, str)
+		resultStr = resultStr + "," + str
+		resultArray = append(resultArray, str)
+
 	}
 
-	print_str_array(result)
-
-	return 0
+	//print_str_array(resultArray)
+	//fmt.Printf("%s. \n", resultStr)
+	return C.CString(resultStr)
 }
 
 //export rbac_list_roles
-func rbac_list_roles() int32 {
+func rbac_list_roles() *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	var result []string
+	resultStr = ""
+	var resultArray []string
 	for key, value := range roleMap {
 		str := key + ": " + value
-		result = append(result, str)
+		resultStr = resultStr + "," + str
+		resultArray = append(resultArray, str)
+
 	}
 
-	print_str_array(result)
-
-	return 0
+	//print_str_array(resultArray)
+	//fmt.Printf("%s. \n", resultStr)
+	return C.CString(resultStr)
 }
 
 //export rbac_list_permissions
-func rbac_list_permissions() int32 {
+func rbac_list_permissions() *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	var result []string
+	resultStr = ""
+	var resultArray []string
 	for key, value := range permMap {
 		str := key + ": " + value
-		result = append(result, str)
+		resultStr = resultStr + "," + str
+		resultArray = append(resultArray, str)
+
 	}
 
-	print_str_array(result)
-
-	return 0
+	//print_str_array(resultArray)
+	//fmt.Printf("%s. \n", resultStr)
+	return C.CString(resultStr)
 }
 
 func print_str_array(array []string) {
