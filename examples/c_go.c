@@ -7,7 +7,7 @@ int main() {
     int rVal = 0;
     rVal = rbac_init();
 
-    {
+    /* {
         char name[] = "permAdmin";
         int lenName = strlen(name);
         GoString goName = {name, lenName};    
@@ -77,7 +77,7 @@ int main() {
         GoString goDesc = {desc, lenDesc};  
 
         rbac_create_user(goName, goDesc);  
-    } 
+    } */
 
     p = rbac_list_users();
     printf("Result is %s. \n", p);
@@ -88,7 +88,7 @@ int main() {
     p = rbac_list_permissions();
     printf("Result is %s. \n", p);    
 
-    {
+    /*{
         char role[] = "roleAdmin";
         int lenRole = strlen(role);
         GoString goRole = {role, lenRole};  
@@ -138,7 +138,7 @@ int main() {
 
         p = rbac_bind_user_role(goUser, goRole);  
         //printf("Result is %s. \n", p);
-    }    
+    }   */ 
 
     {
         char user[] = "userAdmin";
@@ -146,7 +146,7 @@ int main() {
         GoString goUser = {user, lenUser};          
 
         p = rabc_list_roles_by_user(goUser);  
-        //printf("Result is %s. \n", p);
+        printf("Result is %s. \n", p);
     }
 
     {
@@ -155,7 +155,7 @@ int main() {
         GoString goRole = {role, lenRole};           
 
         p = rabc_list_permissions_by_role(goRole);  
-        //printf("Result is %s. \n", p);
+        printf("Result is %s. \n", p);
     }
 
     {
@@ -168,7 +168,7 @@ int main() {
         GoString goPerm = {permission, lenPerm};
 
         p = rbac_user_has_permission(goUser, goPerm);  
-        //printf("Result is %s. \n", p);
+        printf("Result is %s. \n", p);
     } 
 
     /*
@@ -197,7 +197,7 @@ int main() {
         p = rbac_unbind_user_role(goUser, goRole);  
         //printf("Result is %s. \n", p);
     } 
-    */
+    
 
     {
         char permission[] = "permAdmin";
@@ -206,17 +206,7 @@ int main() {
 
         p = rbac_delete_permission(goPerm);  
     }      
-
-    /*();
-    ();
-
-    
-    rbac_delete_role
-    rbac_delete_user
-
-    persist and load in Jason in GO.
     */
-
 
     rbac_uninit();
 

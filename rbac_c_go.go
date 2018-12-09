@@ -2,12 +2,15 @@ package main
 
 import (
 	"C"
+	"encoding/json"
 	"fmt"
+	"log"
+	"os"
 	"sort"
 	"sync"
 )
 
-//used to store users, roles, and permissions.
+//used to store users, roles, and permissions
 var userMap map[string]string
 var roleMap map[string]string
 var permMap map[string]string
@@ -20,6 +23,24 @@ var initialized = 0 /*0 not inited, 1 inited, 2 uninited*/
 var mutex sync.RWMutex
 
 var resultStr string
+
+func loadJSON(filename string, v interface{}) error {
+	f, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	return json.NewDecoder(f).Decode(v)
+}
+
+func saveJSON(filename string, v interface{}) error {
+	f, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	return json.NewEncoder(f).Encode(v)
+}
 
 /*used for initialization, must be called once and only once*/
 //export rbac_init
@@ -40,7 +61,28 @@ func rbac_init() int32 {
 	userRoleMap = make(map[string]map[string]string)
 	rolePermMap = make(map[string]map[string]string)
 
-	/*do something to load the change*/
+	if err := loadJSON("user.json", &userMap); err != nil {
+		//log.Fatal(err)
+	}
+
+	if err := loadJSON("role.json", &roleMap); err != nil {
+		//log.Fatal(err)
+	}
+
+	if err := loadJSON("perm.json", &permMap); err != nil {
+		//log.Fatal(err)
+	}
+
+	if err := loadJSON("userrole.json", &userRoleMap); err != nil {
+		//log.Fatal(err)
+	}
+	//print2DMap(userRoleMap)
+
+	if err := loadJSON("roleperm.json", &rolePermMap); err != nil {
+		//log.Fatal(err)
+	}
+	//print2DMap(rolePermMap)
+
 	return 0
 }
 
@@ -56,7 +98,25 @@ func rbac_uninit() int32 {
 
 	initialized = 2
 
-	/*do something to save the change*/
+	if err := saveJSON("user.json", &userMap); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := saveJSON("role.json", &roleMap); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := saveJSON("perm.json", &permMap); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := saveJSON("userrole.json", &userRoleMap); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := saveJSON("roleperm.json", &rolePermMap); err != nil {
+		log.Fatal(err)
+	}
 
 	return 0
 }
