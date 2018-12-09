@@ -80,8 +80,12 @@ int main() {
         printf("Result is %s. \n", p);
     } 
 
-    /*rbac_bind_role_permission();
-    rbac_bind_user_role();
+    /*rbac_unbind_role_permission();
+    rbac_unbind_user_role();
+
+    rbac_delete_permission
+    rbac_delete_role
+    rbac_delete_user
 
     /*rbac_user_has_permission();
     
