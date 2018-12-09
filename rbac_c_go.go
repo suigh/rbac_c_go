@@ -62,36 +62,131 @@ func rbac_uninit() int32 {
 }
 
 //export rbac_create_permission
-func rbac_create_permission(name, desc string) int32 {
+func rbac_create_permission(name, desc string) *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := permMap[name]; exist {
+		resultStr = "permission already exist"
+		return C.CString(resultStr)
+	}
 
 	permMap[name] = desc
 
-	return 0
+	return C.CString(resultStr)
+}
+
+//export rbac_delete_permission
+func rbac_delete_permission(name string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := permMap[name]; !exist {
+		resultStr = "permission doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	delete(permMap, name)
+
+	for _, valL1 := range rolePermMap {
+		for keyL2 := range valL1 {
+			if keyL2 == name {
+				delete(valL1, name)
+			}
+		}
+	}
+
+	return C.CString(resultStr)
 }
 
 //export rbac_create_role
-func rbac_create_role(name, desc string) int32 {
+func rbac_create_role(name, desc string) *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := roleMap[name]; exist {
+		resultStr = "role already exist"
+		return C.CString(resultStr)
+	}
 
 	roleMap[name] = desc
 
-	return 0
+	return C.CString(resultStr)
 }
 
-//export rbac_create_user
-func rbac_create_user(name, desc string) int32 {
+//export rbac_delete_role
+func rbac_delete_role(name string) *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
 
+	resultStr = "OK"
+
+	if _, exist := roleMap[name]; !exist {
+		resultStr = "role doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	delete(roleMap, name)
+
+	for keyL1 := range rolePermMap {
+		if keyL1 == name {
+			delete(rolePermMap, name)
+		}
+	}
+
+	return C.CString(resultStr)
+}
+
+//export rbac_create_user
+func rbac_create_user(name, desc string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := userMap[name]; exist {
+		resultStr = "user already exist"
+		return C.CString(resultStr)
+	}
+
 	userMap[name] = desc
 
-	return 0
+	return C.CString(resultStr)
+}
+
+//export rbac_delete_user
+func rbac_delete_user(name string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := userMap[name]; !exist {
+		resultStr = "user doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	delete(userMap, name)
+
+	for keyL1 := range userRoleMap {
+		if keyL1 == name {
+			delete(userRoleMap, name)
+		}
+	}
+
+	return C.CString(resultStr)
 }
 
 //export rbac_list_users
@@ -227,19 +322,16 @@ func rbac_bind_role_permission(role, perm string) *C.char {
 
 	if _, exist := roleMap[role]; !exist {
 		resultStr = "Role doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := permMap[perm]; !exist {
 		resultStr = "permission doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := rolePermMap[role][perm]; exist {
 		resultStr = "The relationship already exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
@@ -258,26 +350,57 @@ func rbac_unbind_role_permission(role, perm string) *C.char {
 
 	if _, exist := roleMap[role]; !exist {
 		resultStr = "Role doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := permMap[perm]; !exist {
 		resultStr = "permission doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := rolePermMap[role][perm]; !exist {
 		resultStr = "The relationship doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	for keyL1, valL1 := range rolePermMap {
 		for keyL2 := range valL1 {
-			if keyL1 == role {
-				delete(valL1, keyL2)
+			if keyL1 == role && keyL2 == perm {
+				delete(valL1, perm)
+			}
+		}
+	}
+
+	return C.CString(resultStr)
+}
+
+//export rbac_unbind_user_role
+func rbac_unbind_user_role(user, role string) *C.char {
+
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	resultStr = "OK"
+
+	if _, exist := userMap[user]; !exist {
+		resultStr = "User doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	if _, exist := roleMap[role]; !exist {
+		resultStr = "Role doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	if _, exist := userRoleMap[user][role]; !exist {
+		resultStr = "The relationship doesn't exist"
+		return C.CString(resultStr)
+	}
+
+	for keyL1, valL1 := range userRoleMap {
+		for keyL2 := range valL1 {
+			if keyL1 == user && keyL2 == role {
+				delete(valL1, role)
 			}
 		}
 	}
@@ -295,19 +418,16 @@ func rbac_bind_user_role(user, role string) *C.char {
 
 	if _, exist := userMap[user]; !exist {
 		resultStr = "User doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := roleMap[role]; !exist {
 		resultStr = "Role doesn't exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 
 	if _, exist := userRoleMap[user][role]; exist {
 		resultStr = "The relationship already exist"
-		C.CString(resultStr)
 		return C.CString(resultStr)
 	}
 

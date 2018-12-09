@@ -98,8 +98,8 @@ int main() {
         GoString goPerm = {permission, lenPerm};   
 
         p = rbac_bind_role_permission(goRole, goPerm);  
-        printf("Result is %s. \n", p);
-    } 
+        //printf("Result is %s. \n", p);
+    }     
 
     {
         char role[] = "roleView";
@@ -111,7 +111,7 @@ int main() {
         GoString goPerm = {permission, lenPerm};   
 
         p = rbac_bind_role_permission(goRole, goPerm);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     }    
 
     {
@@ -124,7 +124,7 @@ int main() {
         GoString goRole = {role, lenRole};         
 
         p = rbac_bind_user_role(goUser, goRole);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     } 
 
     {
@@ -137,7 +137,7 @@ int main() {
         GoString goRole = {role, lenRole};         
 
         p = rbac_bind_user_role(goUser, goRole);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     }    
 
     {
@@ -146,7 +146,7 @@ int main() {
         GoString goUser = {user, lenUser};          
 
         p = rabc_list_roles_by_user(goUser);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     }
 
     {
@@ -155,7 +155,7 @@ int main() {
         GoString goRole = {role, lenRole};           
 
         p = rabc_list_permissions_by_role(goRole);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     }
 
     {
@@ -168,9 +168,10 @@ int main() {
         GoString goPerm = {permission, lenPerm};
 
         p = rbac_user_has_permission(goUser, goPerm);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     } 
 
+    /*
     {
         char role[] = "roleAdmin";
         int lenRole = strlen(role);
@@ -181,13 +182,35 @@ int main() {
         GoString goPerm = {permission, lenPerm};   
 
         p = rbac_unbind_role_permission(goRole, goPerm);  
-        printf("Result is %s. \n", p);
+        //printf("Result is %s. \n", p);
     }
 
-    /*();
-    rbac_unbind_user_role();
+    {
+        char user[] = "userAdmin";
+        int lenUser = strlen(user);
+        GoString goUser = {user, lenUser};   
 
-    rbac_delete_permission
+        char role[] = "roleAdmin";
+        int lenRole = strlen(role);
+        GoString goRole = {role, lenRole};         
+
+        p = rbac_unbind_user_role(goUser, goRole);  
+        //printf("Result is %s. \n", p);
+    } 
+    */
+
+    {
+        char permission[] = "permAdmin";
+        int lenPerm = strlen(permission);
+        GoString goPerm = {permission, lenPerm};   
+
+        p = rbac_delete_permission(goPerm);  
+    }      
+
+    /*();
+    ();
+
+    
     rbac_delete_role
     rbac_delete_user
 
