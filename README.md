@@ -8,7 +8,7 @@ For the purposes of this package:
     * build/unbuild relationship between user and role, one user can have several roles. 
     * build/unbuild relationship between role and permission, one role can have several permissions.
     * user get its permissions by the assigned roles.
-    * the above configurations can be saved/loaded by local JASON file.
+    * the above configurations can be saved/loaded by local JASON files.
 	
 Usage (only tested on Linux)
 =====
@@ -24,8 +24,8 @@ Usage (only tested on Linux)
     
 3. The two important APIs are:
 
-    * rbac_init: it is used to initialize the environment and load the saved configuration, it needs to be called at the beginning of the usage, and only once.
-    * rbac_uninit: it is used to save the configuration, it needs to be called at the ending of the usage.
+    * rbac_init: it is used to initialize the environment and load the saved configurations from local JASON files, it needs to be called at the beginning of the usage, and only once.
+    * rbac_uninit: it is used to save the configurations to local JASON files, it needs to be called at the ending of the usage.
 
 4. List other APIs here, you can get the functions of them by name, they are thread safe.
 
