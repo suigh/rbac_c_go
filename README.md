@@ -3,6 +3,7 @@ rbac_c_go
 rbac_c_go implements the RBAC with go language and shows how to use it with C language.
 
 For the purposes of this package:
+
     * add/delete users, roles, permissions.
     * build/unbuild relationship between user and role, one user can have several roles. 
     * build/unbuild relationship between role and permission, one role can have several permissions.
