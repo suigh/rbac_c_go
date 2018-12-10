@@ -19,8 +19,8 @@ Usage (only tested on Linux)
 
 2. Run the sample:
 
-    * Enter the folder rbac_c_go, and run Make to build the go module, you will get the .h and .a file for the C language.
-    * Enter the folder examples, and run Make to build the sample for C language, then you can run ./a to have a try.
+    * enter the folder rbac_c_go, and run Make to build the go module, you will get the .h and .a file for the C language.
+    * enter the folder examples, and run Make to build the sample for C language, then you can run ./a to have a try.
     
 3. The two important APIs are:
 
