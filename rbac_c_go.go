@@ -307,8 +307,8 @@ func rbac_list_permissions() *C.char {
 	return C.CString(resultStr)
 }
 
-//export rabc_list_roles_by_user
-func rabc_list_roles_by_user(user string) *C.char {
+//export rbac_list_roles_by_user
+func rbac_list_roles_by_user(user string) *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()
@@ -326,8 +326,8 @@ func rabc_list_roles_by_user(user string) *C.char {
 	return C.CString(resultStr)
 }
 
-//export rabc_list_permissions_by_role
-func rabc_list_permissions_by_role(role string) *C.char {
+//export rbac_list_permissions_by_role
+func rbac_list_permissions_by_role(role string) *C.char {
 
 	mutex.Lock()
 	defer mutex.Unlock()

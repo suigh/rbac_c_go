@@ -145,7 +145,7 @@ int main() {
         int lenUser = strlen(user);
         GoString goUser = {user, lenUser};          
 
-        p = rabc_list_roles_by_user(goUser);  
+        p = rbac_list_roles_by_user(goUser);  
         printf("Result is %s. \n", p);
     }
 
@@ -154,7 +154,7 @@ int main() {
         int lenRole = strlen(role);
         GoString goRole = {role, lenRole};           
 
-        p = rabc_list_permissions_by_role(goRole);  
+        p = rbac_list_permissions_by_role(goRole);  
         printf("Result is %s. \n", p);
     }
 
