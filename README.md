@@ -8,7 +8,7 @@ For the purposes of this package:
     * build/unbuild relationship between user and role, one user can have several roles. 
     * build/unbuild relationship between role and permission, one role can have several permissions.
     * user get its permissions by the assigned roles.
-    * the above configuration can be saved/loaded.
+    * the above configurations can be saved/loaded.
 	
 Usage (only tested on Linux)
 =====
