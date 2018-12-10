@@ -23,7 +23,7 @@ Usage (only tested on Linux)
     
 3. The two important APIs are:
 
-    * rbac_init: it is used to initailize the environment and load the saved configuration, it needs to be called at the beginning of the usage, and only once.
+    * rbac_init: it is used to initialize the environment and load the saved configuration, it needs to be called at the beginning of the usage, and only once.
     * rbac_uninit: it is used to save the configuration, it needs to be called at the ending of the usage.
 
 4. List other APIs here, you can get the functions of them by name, they are thread safe.
