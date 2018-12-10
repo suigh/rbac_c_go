@@ -13,14 +13,14 @@ For the purposes of this package:
 Usage (only tested on Linux)
 =====
 
-1. Download the codes 
+Download the codes 
 set GOPATH, and then run go get github.com/suigh/rbac_c_go
 
-2. Run the sample
+Run the sample
 Enter the folder rbac_c_go, and run Make to build the go module, you will get the .h and .a file for the C language.
 Enter the folder examples, and run Make to build the sample for C language, then you can run ./a to have a try.
 
-3. The APIs
+The APIs
 The two important APIs are:
 rbac_init: it is used to initailize the environment and load the saved configuration, it needs to be called at the beginning of the usage, and only once.
 rbac_uninit: it is used to save the configuration, it needs to be called at the ending of the usage.
