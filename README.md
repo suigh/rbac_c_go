@@ -10,7 +10,7 @@ For the purposes of this package:
     * user get its permissions by the assigned roles.
     * the above configurations can be saved/loaded by local JASON files.
 	
-Usage (only tested on Linux)
+Usage (only verified on Linux)
 =====
 
 1. Download the codes:
