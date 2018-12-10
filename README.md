@@ -1,6 +1,6 @@
 rbac_c_go 
 ======
-rbac_c_go implements the RBAC with go language and shows how to use it with C language.
+This project implements the RBAC with go language and shows how to use it with C language.
 
 For the purposes of this package:
 
